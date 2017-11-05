@@ -250,7 +250,7 @@ void	process_oprofile_results_file (char *file_name, Proc_List *plist)
     {
 //	count = fscanf (in, "%% %s %s %s %s\n", str1, str2, str3, str4);
 
-	count = fscanf (in, "%% %s %s\n", str1, str2);
+	count = fscanf (in, " %% %s %s\n", str1, str2);
 
 	if ((count == 2)
 		&& (strcmp (str1, "image") == 0)
