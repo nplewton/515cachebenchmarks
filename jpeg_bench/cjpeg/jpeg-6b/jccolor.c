@@ -176,7 +176,7 @@ rgb_ycc_convert (j_compress_ptr cinfo,
   }
   clock_gettime(CLOCK_REALTIME, &end);
   delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
-  fprintf(stderr, "Color convert total time: %u ns\n", delta);
+  fprintf(stderr, "Color Conversion: %u ns\n", delta);
 }
 
 

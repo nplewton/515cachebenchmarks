@@ -13,7 +13,7 @@
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
-
+#include <time.h>
 
 /* We use a full-image coefficient buffer when doing Huffman optimization,
  * and also for writing multiple-scan JPEG files.  In all cases, the DCT
@@ -149,7 +149,10 @@ compress_data (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
   int blkn, bi, ci, yindex, yoffset, blockcnt;
   JDIMENSION ypos, xpos;
   jpeg_component_info *compptr;
+  struct timespec start, end;
+  long delta;
 
+  clock_gettime(CLOCK_REALTIME, &start);
   /* Loop to write as much as one whole iMCU row */
   for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row;
        yoffset++) {
@@ -214,6 +217,9 @@ compress_data (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
   /* Completed the iMCU row, advance counters for next one */
   coef->iMCU_row_num++;
   start_iMCU_row(cinfo);
+  clock_gettime(CLOCK_REALTIME, &end);
+  delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
+  fprintf(stderr, "Data Compression: %u ns\n", delta);
   return TRUE;
 }
 
@@ -318,6 +324,7 @@ compress_first_pass (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
       }
     }
   }
+
   /* NB: compress_output will increment iMCU_row_num if successful.
    * A suspension return will result in redoing all the work above next time.
    */
