@@ -279,13 +279,13 @@ forward_DCT_float (j_compress_ptr cinfo, jpeg_component_info * compptr,
   FAST_FLOAT * divisors = fdct->float_divisors[compptr->quant_tbl_no];
   FAST_FLOAT workspace[DCTSIZE2]; /* work area for FDCT subroutine */
   JDIMENSION bi;
-  clock_t start;
-  clock_t end;
-  double delta;
+  struct timespec start;
+  struct timespec end;
+  long delta;
 
+  clock_gettime(CLOCK_REALTIME, &start);
   sample_data += start_row;	/* fold in the vertical offset once */
 
-  start = clock();
   for (bi = 0; bi < num_blocks; bi++, start_col += DCTSIZE) {
     /* Load data into workspace, applying unsigned->signed conversion */
     { register FAST_FLOAT *workspaceptr;
@@ -336,9 +336,9 @@ forward_DCT_float (j_compress_ptr cinfo, jpeg_component_info * compptr,
       }
     }
   }
-  end = clock();
-  delta = (end - start) * 1000 / CLOCKS_PER_SEC;
-  fprintf(stderr, "DCT float total time: %f ms\n", delta);
+  clock_gettime(CLOCK_REALTIME, &end);
+  delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
+  fprintf(stderr, "DCT Float: %u ms\n", delta);
 }
 
 #endif /* DCT_FLOAT_SUPPORTED */
