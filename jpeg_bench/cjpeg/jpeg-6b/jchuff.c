@@ -18,7 +18,7 @@
 #include "jinclude.h"
 #include "jpeglib.h"
 #include "jchuff.h"		/* Declarations shared with jcphuff.c */
-
+#include <time.h>
 
 /* Expanded entropy encoder object for Huffman encoding.
  *
@@ -185,10 +185,13 @@ jpeg_make_c_derived_tbl (j_compress_ptr cinfo, boolean isDC, int tblno,
   char huffsize[257];
   unsigned int huffcode[257];
   unsigned int code;
+  struct timespec start, end;
+  long delta;
 
   /* Note that huffsize[] and huffcode[] are filled in code-length order,
    * paralleling the order of the symbols themselves in htbl->huffval[].
    */
+  clock_gettime(CLOCK_REALTIME, &start);
 
   /* Find the input Huffman table */
   if (tblno < 0 || tblno >= NUM_HUFF_TBLS)
@@ -261,6 +264,9 @@ jpeg_make_c_derived_tbl (j_compress_ptr cinfo, boolean isDC, int tblno,
     dtbl->ehufco[i] = huffcode[p];
     dtbl->ehufsi[i] = huffsize[p];
   }
+  clock_gettime(CLOCK_REALTIME, &end);
+  delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
+  fprintf(stderr, "Huffman Table: %u ns\n", delta);
 }
 
 
