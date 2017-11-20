@@ -485,7 +485,10 @@ encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
   working_state state;
   int blkn, ci;
   jpeg_component_info * compptr;
+  struct timespec start, end;
+  long delta;
 
+  clock_gettime(CLOCK_REALTIME, &start);
   /* Load up working state */
   state.next_output_byte = cinfo->dest->next_output_byte;
   state.free_in_buffer = cinfo->dest->free_in_buffer;
@@ -527,6 +530,9 @@ encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
     entropy->restarts_to_go--;
   }
 
+  clock_gettime(CLOCK_REALTIME, &end);
+  delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
+  fprintf(stderr, "Huffman Encode MCU: %u ns\n", delta);
   return TRUE;
 }
 
