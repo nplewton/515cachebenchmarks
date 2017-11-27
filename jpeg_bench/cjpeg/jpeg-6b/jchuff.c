@@ -438,6 +438,8 @@ encode_one_block (working_state * state, JCOEFPTR block, int last_dc_val,
       
       r = 0;
     }
+
+    __builtin_prefetch(&block[jpeg_natural_order[k + 1]], 0, 1);
   }
 
   /* If the last coef(s) were zero, emit an end-of-block code */
@@ -513,6 +515,10 @@ encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
       return FALSE;
     /* Update last_dc_val */
     state.cur.last_dc_val[ci] = MCU_data[blkn][0][0];
+
+    __builtin_prefetch(&cinfo->MCU_membership[blkn + 1], 0, 1);
+    __builtin_prefetch(&MCU_data[blkn + 1], 0, 1);
+    __builtin_prefetch(&MCU_data[blkn + 1][0], 0, 1);
   }
 
   /* Completed MCU, so update state */
