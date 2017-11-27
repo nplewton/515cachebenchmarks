@@ -187,14 +187,19 @@ compress_data (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
 			(compptr->MCU_width - blockcnt) * SIZEOF(JBLOCK));
 	      for (bi = blockcnt; bi < compptr->MCU_width; bi++) {
 		coef->MCU_buffer[blkn+bi][0][0] = coef->MCU_buffer[blkn+bi-1][0][0];
+	        __builtin_prefetch(&coef->MCU_buffer[blkn + bi + 1][0][0], 1, 1);
+	        __builtin_prefetch(&coef->MCU_buffer[blkn + bi][0][0], 0, 1);
 	      }
 	    }
 	  } else {
 	    /* Create a row of dummy blocks at the bottom of the image. */
 	    jzero_far((void FAR *) coef->MCU_buffer[blkn],
 		      compptr->MCU_width * SIZEOF(JBLOCK));
+
+	    __builtin_prefetch(&coef->MCU_buffer[blkn - 1][0][0], 0, 1);
 	    for (bi = 0; bi < compptr->MCU_width; bi++) {
 	      coef->MCU_buffer[blkn+bi][0][0] = coef->MCU_buffer[blkn-1][0][0];
+	      __builtin_prefetch(&coef->MCU_buffer[blkn + bi + 1][0][0], 1, 1);
 	    }
 	  }
 	  blkn += compptr->MCU_width;
