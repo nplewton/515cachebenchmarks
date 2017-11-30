@@ -2,6 +2,8 @@
 /* jconfig.cfg --- source file edited by configure script */
 /* see jconfig.doc for explanations */
 
+#define DO_PREFETCH
+
 #define HAVE_PROTOTYPES 
 #define HAVE_UNSIGNED_CHAR 
 #define HAVE_UNSIGNED_SHORT 
@@ -41,7 +43,5 @@
 
 /* Define this if you want percent-done progress reports from cjpeg/djpeg. */
 #undef PROGRESS_REPORT
-
-#define DO_PREFETCH
 
 #endif /* JPEG_CJPEG_DJPEG */
