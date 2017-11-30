@@ -516,8 +516,10 @@ encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
     /* Update last_dc_val */
     state.cur.last_dc_val[ci] = MCU_data[blkn][0][0];
 
+#ifdef DO_PREFETCH
     __builtin_prefetch(&cinfo->MCU_membership[blkn + 1], 0, 1);
     __builtin_prefetch(&MCU_data[blkn + 1][0], 0, 1);
+#endif
   }
 
   /* Completed MCU, so update state */

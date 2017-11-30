@@ -42,4 +42,6 @@
 /* Define this if you want percent-done progress reports from cjpeg/djpeg. */
 #undef PROGRESS_REPORT
 
+#define DO_PREFETCH
+
 #endif /* JPEG_CJPEG_DJPEG */

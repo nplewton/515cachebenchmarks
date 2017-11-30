@@ -172,15 +172,18 @@ rgb_ycc_convert (j_compress_ptr cinfo,
       outptr2[col] = (JSAMPLE)
 		((ctab[r+R_CR_OFF] + ctab[g+G_CR_OFF] + ctab[b+B_CR_OFF])
 		 >> SCALEBITS);
-
+#ifdef DO_PREFETCH
       __builtin_prefetch(&outptr0[col + 1], 1, 1);
       __builtin_prefetch(&outptr1[col + 1], 1, 1);
       __builtin_prefetch(&outptr2[col + 1], 1, 1);
+#endif
     }
 
+#ifdef DO_PREFETCH
     __builtin_prefetch(&output_buf[0][output_row], 0, 1);
     __builtin_prefetch(&output_buf[1][output_row], 0, 1);
     __builtin_prefetch(&output_buf[2][output_row], 0, 1);
+#endif
   }
   clock_gettime(CLOCK_REALTIME, &end);
   delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
