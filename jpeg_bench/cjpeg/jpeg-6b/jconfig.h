@@ -2,8 +2,8 @@
 /* jconfig.cfg --- source file edited by configure script */
 /* see jconfig.doc for explanations */
 
-//#define DO_PREFETCH
-//#define PREFETCH_2
+#define DO_PREFETCH
+#define PREFETCH_2
 
 #define HAVE_PROTOTYPES 
 #define HAVE_UNSIGNED_CHAR 

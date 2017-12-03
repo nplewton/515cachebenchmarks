@@ -1,0 +1,28 @@
+type,sample,phase,total,avg
+None,Sample 1,Color,14563500,13484
+None,Sample 1,Huffman,7728600,947
+None,Sample 1,Compress,93088700,1368951
+prefetch 1,Sample 1,Color,16800800,15556
+prefetch 1,Sample 1,Huffman,10687000,1309
+prefetch 1,Sample 1,Compress,98925200,1454782
+prefetch 2,Sample 1,Color,17061200,15797
+prefetch 2,Sample 1,Huffman,9933600,1217
+prefetch 2,Sample 1,Compress,93030300,1368092
+None,Sample 2,Color,13848200,12822
+None,Sample 2,Huffman,15050500,1844
+None,Sample 2,Compress,110714100,1628148
+prefetch 1,Sample 2,Color,16479700,15258
+prefetch 1,Sample 2,Huffman,16666600,2042
+prefetch 1,Sample 2,Compress,111306500,1636860
+prefetch 2,Sample 2,Color,16706500,15468
+prefetch 2,Sample 2,Huffman,16704900,2047
+prefetch 2,Sample 2,Compress,111298800,1636747
+None,Sample 3,Color,13908600,12878
+None,Sample 3,Huffman,23294700,2854
+None,Sample 3,Compress,119210100,1753089
+prefetch 1,Sample 3,Color,16387300,15173
+prefetch 1,Sample 3,Huffman,23920600,2931
+prefetch 1,Sample 3,Compress,117775400,1731991
+prefetch 2,Sample 3,Color,16668400,15433
+prefetch 2,Sample 3,Huffman,23849500,2922
+prefetch 2,Sample 3,Compress,119008400,1750123
