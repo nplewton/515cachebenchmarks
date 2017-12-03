@@ -191,6 +191,10 @@ compress_data (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
 		__builtin_prefetch(&coef->MCU_buffer[blkn + bi + 1][0][0], 1, 1);
 	        __builtin_prefetch(&coef->MCU_buffer[blkn + bi][0][0], 0, 1);
 #endif
+#ifdef PREFETCH2
+		__builtin_prefetch(&coef->MCU_buffer[blkn + bi + 2][0][0], 1, 1);
+	        __builtin_prefetch(&coef->MCU_buffer[blkn + bi + 1][0][0], 0, 1);
+#endif
 	      }
 	    }
 	  } else {

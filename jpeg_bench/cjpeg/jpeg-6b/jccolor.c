@@ -177,12 +177,22 @@ rgb_ycc_convert (j_compress_ptr cinfo,
       __builtin_prefetch(&outptr1[col + 1], 1, 1);
       __builtin_prefetch(&outptr2[col + 1], 1, 1);
 #endif
+#ifdef PREFETCH2
+      __builtin_prefetch(&outptr0[col + 2], 1, 1);
+      __builtin_prefetch(&outptr1[col + 2], 1, 1);
+      __builtin_prefetch(&outptr2[col + 2], 1, 1);
+#endif
     }
 
 #ifdef DO_PREFETCH
     __builtin_prefetch(&output_buf[0][output_row], 0, 1);
     __builtin_prefetch(&output_buf[1][output_row], 0, 1);
     __builtin_prefetch(&output_buf[2][output_row], 0, 1);
+#endif
+#ifdef PREFETCH2
+    __builtin_prefetch(&output_buf[0][output_row + 1], 0, 1);
+    __builtin_prefetch(&output_buf[1][output_row + 1], 0, 1);
+    __builtin_prefetch(&output_buf[2][output_row + 1], 0, 1);
 #endif
   }
   clock_gettime(CLOCK_REALTIME, &end);
