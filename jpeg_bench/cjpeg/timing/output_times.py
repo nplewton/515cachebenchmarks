@@ -3,16 +3,16 @@
 import sys
 import os
 
-colorTimes = []
-huffTimes = []
-dataTimes = []
-
 outFile = open('times.csv', 'w+')
 outFile.write('type,sample,phase,total,avg\n')
 
 timesFiles = filter(lambda n : 'times' in n and '.txt' in n, os.listdir('.'))
 
 for name in timesFiles:
+    colorTimes = []
+    huffTimes = []
+    dataTimes = []
+
     with open(name) as f:
         for l in f.readlines():
             time = int(l.split(' ')[-2])
