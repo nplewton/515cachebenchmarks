@@ -1,29 +1,47 @@
 #!/usr/bin/env python
 
 import sys
+import os
 
 colorTimes = []
 huffTimes = []
 dataTimes = []
 
-with open(sys.argv[1]) as f:
-   for l in f.readlines():
-       time = int(l.split(' ')[-2])
-       if 'Data Compression' in l:
-           dataTimes.append(time)
-       elif 'Huffman Encode' in l:
-           huffTimes.append(time)
-       elif 'Color Conversion' in l:
-           colorTimes.append(time)
+outFile = open('times.csv', 'w+')
+outFile.write('type,sample,phase,total,avg\n')
 
-totalColor = sum(colorTimes)
-totalHuff = sum(huffTimes)
-totalData = sum(dataTimes)
+timesFiles = filter(lambda n : 'times' in n and '.txt' in n, os.listdir('.'))
 
-avgColor = totalColor / len(colorTimes)
-avgHuff = totalHuff / len(huffTimes)
-avgData = totalData / len(dataTimes)
+for name in timesFiles:
+    with open(name) as f:
+        for l in f.readlines():
+            time = int(l.split(' ')[-2])
+            if 'Data Compression' in l:
+                dataTimes.append(time)
+            elif 'Huffman Encode' in l:
+                huffTimes.append(time)
+            elif 'Color Conversion' in l:
+                colorTimes.append(time)
 
-print 'Color conversion - total time %d ns, average %d ns' % (totalColor, avgColor)
-print 'Huffman Encode - total time %d ns, average %d ns' % (totalHuff, avgHuff)
-print 'Data Compression - total time %d ns, average %d ns' % (totalData, avgData)
+        totalColor = sum(colorTimes)
+        totalHuff = sum(huffTimes)
+        totalData = sum(dataTimes)
+
+        avgColor = totalColor / len(colorTimes)
+        avgHuff = totalHuff / len(huffTimes)
+        avgData = totalData / len(dataTimes)
+
+        sampleNo = int(name[5])
+        typ = 'None'
+
+        if 'pref' in name:
+            try:
+                prefNum = int(name[-5])
+            except:
+                prefNum = 1
+
+            typ = 'prefetch %d' % (prefNum)
+
+        outFile.write('%s,Sample %d,Color,%d,%d\n' % (typ, sampleNo, totalColor, avgColor))
+        outFile.write('%s,Sample %d,Huffman,%d,%d\n' % (typ, sampleNo, totalHuff, avgHuff))
+        outFile.write('%s,Sample %d,Compress,%d,%d\n' % (typ, sampleNo, totalData, avgData))
