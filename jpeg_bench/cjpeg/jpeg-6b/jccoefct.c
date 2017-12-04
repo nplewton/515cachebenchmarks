@@ -152,7 +152,7 @@ compress_data (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
   struct timespec start, end;
   long delta;
 
-  clock_gettime(CLOCK_REALTIME, &start);
+  clock_gettime(CLOCK_MONOTONIC, &start);
   /* Loop to write as much as one whole iMCU row */
   for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row;
        yoffset++) {
@@ -228,7 +228,7 @@ compress_data (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
   /* Completed the iMCU row, advance counters for next one */
   coef->iMCU_row_num++;
   start_iMCU_row(cinfo);
-  clock_gettime(CLOCK_REALTIME, &end);
+  clock_gettime(CLOCK_MONOTONIC, &end);
   delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
   fprintf(stderr, "Data Compression: %u ns\n", delta);
   return TRUE;

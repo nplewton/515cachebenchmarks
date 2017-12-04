@@ -185,14 +185,10 @@ jpeg_make_c_derived_tbl (j_compress_ptr cinfo, boolean isDC, int tblno,
   char huffsize[257];
   unsigned int huffcode[257];
   unsigned int code;
-  struct timespec start, end;
-  long delta;
 
   /* Note that huffsize[] and huffcode[] are filled in code-length order,
    * paralleling the order of the symbols themselves in htbl->huffval[].
    */
-  clock_gettime(CLOCK_REALTIME, &start);
-
   /* Find the input Huffman table */
   if (tblno < 0 || tblno >= NUM_HUFF_TBLS)
     ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, tblno);
@@ -264,9 +260,6 @@ jpeg_make_c_derived_tbl (j_compress_ptr cinfo, boolean isDC, int tblno,
     dtbl->ehufco[i] = huffcode[p];
     dtbl->ehufsi[i] = huffsize[p];
   }
-  clock_gettime(CLOCK_REALTIME, &end);
-  delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
-  fprintf(stderr, "Huffman Table: %u ns\n", delta);
 }
 
 
@@ -494,7 +487,7 @@ encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
   struct timespec start, end;
   long delta;
 
-  clock_gettime(CLOCK_REALTIME, &start);
+  clock_gettime(CLOCK_MONOTONIC, &start);
   /* Load up working state */
   state.next_output_byte = cinfo->dest->next_output_byte;
   state.free_in_buffer = cinfo->dest->free_in_buffer;
@@ -545,7 +538,7 @@ encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
     entropy->restarts_to_go--;
   }
 
-  clock_gettime(CLOCK_REALTIME, &end);
+  clock_gettime(CLOCK_MONOTONIC, &end);
   delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
   fprintf(stderr, "Huffman Encode MCU: %u ns\n", delta);
   return TRUE;

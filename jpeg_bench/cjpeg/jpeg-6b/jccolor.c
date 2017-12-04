@@ -143,7 +143,7 @@ rgb_ycc_convert (j_compress_ptr cinfo,
 
   JDIMENSION num_cols = cinfo->image_width;
 
-  clock_gettime(CLOCK_REALTIME, &start);
+  clock_gettime(CLOCK_MONOTONIC, &start);
   while (--num_rows >= 0) {
     inptr = *input_buf++;
     outptr0 = output_buf[0][output_row];
@@ -195,7 +195,7 @@ rgb_ycc_convert (j_compress_ptr cinfo,
     __builtin_prefetch(&output_buf[2][output_row + 1], 0, 1);
 #endif
   }
-  clock_gettime(CLOCK_REALTIME, &end);
+  clock_gettime(CLOCK_MONOTONIC, &end);
   delta = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec; 
   fprintf(stderr, "Color Conversion: %u ns\n", delta);
 }
