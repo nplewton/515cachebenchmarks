@@ -3,7 +3,7 @@
 /* see jconfig.doc for explanations */
 
 #define DO_PREFETCH
-#define PREFETCH_2
+#define PREFETCH2
 
 #define HAVE_PROTOTYPES 
 #define HAVE_UNSIGNED_CHAR 

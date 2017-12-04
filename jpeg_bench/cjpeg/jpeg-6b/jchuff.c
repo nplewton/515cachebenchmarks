@@ -518,8 +518,8 @@ encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
     __builtin_prefetch(&MCU_data[blkn + 1][0], 0, 1);
 #endif
 #ifdef PREFETCH2
-    __builtin_prefetch(&cinfo->MCU_membership[blkn + 2], 0, 1);
-    __builtin_prefetch(&MCU_data[blkn + 2][0], 0, 1);
+//    __builtin_prefetch(&cinfo->MCU_membership[blkn + 2], 0, 1);
+//   __builtin_prefetch(&MCU_data[blkn + 2][0], 0, 1);
 #endif
   }
 

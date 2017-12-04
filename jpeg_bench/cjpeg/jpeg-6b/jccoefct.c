@@ -201,11 +201,17 @@ compress_data (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
 	    /* Create a row of dummy blocks at the bottom of the image. */
 	    jzero_far((void FAR *) coef->MCU_buffer[blkn],
 		      compptr->MCU_width * SIZEOF(JBLOCK));
-
+#ifdef DO_PREFETCH
 	    __builtin_prefetch(&coef->MCU_buffer[blkn - 1][0][0], 0, 1);
+#endif
 	    for (bi = 0; bi < compptr->MCU_width; bi++) {
 	      coef->MCU_buffer[blkn+bi][0][0] = coef->MCU_buffer[blkn-1][0][0];
+#ifdef DO_PREFETCH
 	      __builtin_prefetch(&coef->MCU_buffer[blkn + bi + 1][0][0], 1, 1);
+#endif
+#ifdef PREFETCH2
+	      __builtin_prefetch(&coef->MCU_buffer[blkn + bi + 2][0][0], 1, 1);
+#endif
 	    }
 	  }
 	  blkn += compptr->MCU_width;
