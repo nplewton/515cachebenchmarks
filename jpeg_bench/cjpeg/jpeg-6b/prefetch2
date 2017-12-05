@@ -1,5 +1,5 @@
- ./cjpeg.exe -outfile ../output_base/out1.jpg ../input_base/sample1.ppm 2>times1_pref2.txt
- ./cjpeg.exe -outfile ../output_base/out2.jpg ../input_base/sample2.ppm 2>times2_pref2.txt
- ./cjpeg.exe -outfile ../output_base/out3.jpg ../input_base/sample3.ppm 2>times3_pref2.txt
+ ./cjpeg -outfile ../output_base/out1.jpg ../input_base/sample1.ppm 2>times1_pref2.txt
+ ./cjpeg -outfile ../output_base/out2.jpg ../input_base/sample2.ppm 2>times2_pref2.txt
+ ./cjpeg -outfile ../output_base/out3.jpg ../input_base/sample3.ppm 2>times3_pref2.txt
 
 mv times* ../timing
